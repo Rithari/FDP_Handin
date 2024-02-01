@@ -40,6 +40,7 @@ Before beginning the setup process, ensure the following prerequisites are met:
 
 6. **Access the Application**
    - Once the Docker containers are online, you can access the entry point at [http://localhost:80](http://localhost:80).
+  
 
 ## ⚠️ Additional Notes
 
@@ -48,5 +49,7 @@ Before beginning the setup process, ensure the following prerequisites are met:
 - **Docker Build Control:** If you prefer more control over the Docker building process, you can modify the script to not run the containers automatically. After modifying the script, you can manually execute `docker-compose up --build -d`.
 
 - **Windows:** If you are running this project on Windows, use the `script.bat` instead.
+
+- **Jupyter Notebook** The storytelling books are not containerized. Make sure the uncleaned CSV files are in the data directory, then run the notebooks to receive the cleaned data in the output.
 
 ---
