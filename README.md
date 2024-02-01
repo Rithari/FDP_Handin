@@ -8,6 +8,8 @@ Before beginning the setup process, ensure the following prerequisites are met:
 - PostgreSQL and MongoDB services should not be running on the host machine. If you are using macOS and have installed these services via Homebrew, you can disable them using the following commands:
   - `brew services stop postgresql`
   - `brew services stop mongodb-community`
+ 
+- Up to 500 seconds of patience (or more based on connection speeds) if this is the first docker container you have built in a while, or ever. 
 
 ## Setup Steps
 
