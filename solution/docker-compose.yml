@@ -1,0 +1,86 @@
+version: '3.8'
+
+services:
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: fdpdata
+      POSTGRES_USER: rithari
+      POSTGRES_PASSWORD: Ja32daZYJWWYdNmSifLX
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./sql_scripts:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    networks:
+      - fdp-network
+
+  mongo:
+    build: ./mongo_scripts
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: rithari
+      MONGO_INITDB_ROOT_PASSWORD: Ja32daZYJWWYdNmSifLX
+    volumes:
+      - mongo-data:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - fdp-network
+  
+  flask:
+    build: ./FDP_Flask
+    ports:
+      - "4000:4000"
+    depends_on:
+      - postgres
+      - mongo
+    env_file:
+      - flask.env
+    networks:
+      - fdp-network
+
+  springboot:
+    build: ./FDP_SpringBoot
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    env_file:
+      - springboot.env
+    networks:
+      - fdp-network
+
+  expressjs:
+    build: ./FDP_Cluster
+    ports:
+      - "3000:3000"
+    depends_on:
+      - springboot
+      - flask
+    env_file:
+      - expressjs.env
+    networks:
+      - fdp-network
+
+  react-vite:
+    build:
+      context: ./FootballDataPortal
+    ports:
+      - "80:80"
+    depends_on:
+      - expressjs
+    networks:
+      - fdp-network
+    env_file:
+      - react-vite.env
+
+
+# Volumes for data persistence
+volumes:
+  postgres-data:
+  mongo-data:
+
+networks:
+  fdp-network:
+    driver: bridge
